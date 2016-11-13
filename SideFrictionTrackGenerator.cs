@@ -205,7 +205,7 @@ public class SideFrictionTrackGenerator : MeshGenerator
         
 
 
-        return default(MeshCombiner).start().add(new Extruder[]
+        return MeshCombiner.start().add(new Extruder[]
             {
                 leftWoodenTrack,
                 rightWoodenTrack,
