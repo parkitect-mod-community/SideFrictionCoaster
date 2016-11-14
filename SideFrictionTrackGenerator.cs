@@ -73,7 +73,7 @@ public class SideFrictionTrackGenerator : MeshGenerator
     {
         base.sampleAt(trackSegment, t);
         Vector3 normal = trackSegment.getNormal(t);
-        Vector3 trackPivot = base.getTrackPivot(trackSegment.getPoint(t), normal);
+        Vector3 trackPivot = base.getTrackPivot(trackSegment.getPoint(t,0), normal);
         Vector3 tangentPoint = trackSegment.getTangentPoint(t);
         Vector3 binormal = Vector3.Cross(normal, tangentPoint).normalized;
 
@@ -107,14 +107,14 @@ public class SideFrictionTrackGenerator : MeshGenerator
     {
         base.afterExtrusion(trackSegment, putMeshOnGO);
 
-        float sample = trackSegment.getLength() / (float)Mathf.RoundToInt(trackSegment.getLength()/ this.crossBeamSpacing);
+        float sample = trackSegment.getLength(0) / (float)Mathf.RoundToInt(trackSegment.getLength(0)/ this.crossBeamSpacing);
         float pos = 0.0f;
         int index = 0;
-        while(pos < trackSegment.getLength())
+        while(pos < trackSegment.getLength(0))
         {
          
 
-            float tForDistance = trackSegment.getTForDistance (pos);
+            float tForDistance = trackSegment.getTForDistance (pos,0);
 
             index++;
             pos += sample;
@@ -122,7 +122,7 @@ public class SideFrictionTrackGenerator : MeshGenerator
             Vector3 normal = trackSegment.getNormal (tForDistance);
             Vector3 tangentPoint = trackSegment.getTangentPoint (tForDistance);
             Vector3 binormal = Vector3.Cross (normal, tangentPoint).normalized;
-            Vector3 trackPivot = base.getTrackPivot (trackSegment.getPoint (tForDistance), normal);
+            Vector3 trackPivot = base.getTrackPivot (trackSegment.getPoint (tForDistance,0), normal);
             Vector3 binormalFlat = Vector3.Cross(Vector3.up, tangentPoint).normalized;
 
             //vertical segment
