@@ -36,6 +36,9 @@
     <Reference Include="Assembly-CSharp">
       <HintPath>..\..\Parkitect_Data\Managed\Assembly-CSharp.dll</HintPath>
     </Reference>
+    <Reference Include="build-161214210425325, Version=0.0.0.0, Culture=neutral, PublicKeyToken=null">
+      <HintPath>..\pollend@TrackRiderUtil\bin\build-161214210425325.dll</HintPath>
+    </Reference>
     <Reference Include="Microsoft.CSharp" />
     <Reference Include="System" />
     <Reference Include="System.Core" />
