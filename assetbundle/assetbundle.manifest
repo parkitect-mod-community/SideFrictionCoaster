@@ -1,6 +1,7 @@
 ManifestFileVersion: 0
+CRC: 1452892507
 AssetBundleManifest:
   AssetBundleInfos:
     Info_0:
-      Name: SideFriction
+      Name: sidefriction
       Dependencies: {}
