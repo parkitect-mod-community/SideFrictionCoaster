@@ -12,13 +12,9 @@ public class AssetBundleManager
 		_assetBundle = AssetBundle.LoadFromFile(main.Path + dsc + "assetbundle" + dsc + "assetpack");
 
 		Car = _assetBundle.LoadAsset<GameObject>("8f034a245ff2b4d1e80ad27667bdd1df");
-	
-	}
-	
-	public void unload()
-	{
 		_assetBundle.Unload(false);
 	}
+	
 }
 
 

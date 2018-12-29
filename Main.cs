@@ -64,7 +64,6 @@ public class Main : IMod
             coasterCarInstantiator.name);
         GameObjectHelper.RegisterDeprecatedMapping("SideFriction_Car" + oldHash, car.name);
 
-        AssetBundleManager.unload();
     }
 
     public void onDisabled()
