@@ -11,11 +11,8 @@ public class Main : IMod
 
     public void onEnabled()
     {
-
-
         if (AssetBundleManager == null)
         {
-
             AssetBundleManager = new AssetBundleManager(this);
         }
 
@@ -46,7 +43,7 @@ public class Main : IMod
             binder.RegisterCoasterCarInstaniator<CoasterCarInstantiator>(trackedRide, "SideFrictionInstantiator",
                 "Side Friction Car", 5, 7, 2);
 
-        BaseCar car = binder.RegisterCar<BaseCar>(Main.AssetBundleManager.Car, "SideFrictionCar", .25f, .02f, true,
+        BaseCar car = binder.RegisterCar<BaseCar>(AssetBundleManager.Car, "SideFrictionCar", .25f, .02f, true,
             new Color[]
             {
                 new Color(0f / 255, 4f / 255, 190f / 255),
@@ -67,6 +64,7 @@ public class Main : IMod
             coasterCarInstantiator.name);
         GameObjectHelper.RegisterDeprecatedMapping("SideFriction_Car" + oldHash, car.name);
 
+        AssetBundleManager.unload();
     }
 
     public void onDisabled()

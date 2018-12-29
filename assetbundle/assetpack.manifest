@@ -1,9 +1,9 @@
 ManifestFileVersion: 0
-CRC: 955984143
+CRC: 1123218625
 Hashes:
   AssetFileHash:
     serializedVersion: 2
-    Hash: 935c9eab99ed3c6d780729e4724a8e61
+    Hash: 6495d47c49e2eedaf31de93b532f8b90
   TypeTreeHash:
     serializedVersion: 2
     Hash: 6fa9ce387392089bc59dd886979cd053
@@ -24,5 +24,5 @@ ClassTypes:
 - Class: 48
   Script: {instanceID: 0}
 Assets:
-- Assets/SideFrictonCar.prefab
+- Assets/Resources/AssetPack/8f034a245ff2b4d1e80ad27667bdd1df.prefab
 Dependencies: []
