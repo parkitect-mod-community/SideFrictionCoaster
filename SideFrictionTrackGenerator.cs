@@ -1,20 +1,7 @@
-﻿ using System;
-using UnityEngine;
+﻿using UnityEngine;
 
 public class SideFrictionTrackGenerator : MeshGenerator
 {
-
-
-    private BoxExtruder leftWoodenTrack;
-    private BoxExtruder rightWoodenTrack;
-
-    private BoxExtruder leftMinorWoodenTrack;
-    private BoxExtruder rightMinorWoodenTrack;
-
-    private BoxExtruder leftSideWoodenTrack;
-    private BoxExtruder rightSideWoodenTrack;
-
-    private BoxExtruder crossBeamSupport;
     private BoxExtruder AngledCrossBeamSupport;
 
     private BoxExtruder collisionMeshExtruder;
@@ -22,213 +9,292 @@ public class SideFrictionTrackGenerator : MeshGenerator
     private BoxExtruder CrossBeamRailSupportLeft;
     private BoxExtruder CrossBeamRailSupportRight;
 
+    private BoxExtruder crossBeamSupport;
+
+    private BoxExtruder leftMinorWoodenTrack;
+
+    private BoxExtruder leftSideWoodenTrack;
+
+
+    private BoxExtruder leftWoodenTrack;
+    private BoxExtruder rightMinorWoodenTrack;
+    private BoxExtruder rightSideWoodenTrack;
+    private BoxExtruder rightWoodenTrack;
+
     protected override void Initialize()
     {
         base.Initialize();
-        base.trackWidth = 0.22263f * 2.0f;
-        this.crossBeamSpacing = 0.5f;
+        trackWidth = 0.22263f * 2.0f;
+        crossBeamSpacing = 0.5f;
     }
 
     public override void prepare(TrackSegment4 trackSegment, GameObject putMeshOnGO)
     {
         base.prepare(trackSegment, putMeshOnGO);
-        putMeshOnGO.GetComponent<Renderer>().sharedMaterial = this.material;
-       
-        leftWoodenTrack = new BoxExtruder (.09908f,.0250f);
-        rightWoodenTrack = new BoxExtruder (.09908f,.0250f);
-        leftWoodenTrack.setUV (15, 15);
-        rightWoodenTrack.setUV (15, 15);
+        putMeshOnGO.GetComponent<Renderer>().sharedMaterial = material;
+
+        leftWoodenTrack = new BoxExtruder(.09908f, .0250f);
+        rightWoodenTrack = new BoxExtruder(.09908f, .0250f);
+        leftWoodenTrack.setUV(15, 15);
+        rightWoodenTrack.setUV(15, 15);
 
 
-        leftMinorWoodenTrack = new BoxExtruder (.04421f, .0250f);
-        rightMinorWoodenTrack = new BoxExtruder (.04421f, .0250f);
-        rightMinorWoodenTrack.setUV (14, 15);
-        leftMinorWoodenTrack.setUV (14, 15);
+        leftMinorWoodenTrack = new BoxExtruder(.04421f, .0250f);
+        rightMinorWoodenTrack = new BoxExtruder(.04421f, .0250f);
+        rightMinorWoodenTrack.setUV(14, 15);
+        leftMinorWoodenTrack.setUV(14, 15);
 
 
-        leftSideWoodenTrack = new BoxExtruder (.0170f,.07714f);
-        rightSideWoodenTrack = new BoxExtruder (.0170f,.07714f);
-        rightSideWoodenTrack.setUV (15, 14);
-        leftSideWoodenTrack.setUV (15, 14);
+        leftSideWoodenTrack = new BoxExtruder(.0170f, .07714f);
+        rightSideWoodenTrack = new BoxExtruder(.0170f, .07714f);
+        rightSideWoodenTrack.setUV(15, 14);
+        leftSideWoodenTrack.setUV(15, 14);
 
 
-        crossBeamSupport = new BoxExtruder (.0550f, .0550f);
+        crossBeamSupport = new BoxExtruder(.0550f, .0550f);
         crossBeamSupport.closeEnds = true;
-        crossBeamSupport.setUV (15, 15);
+        crossBeamSupport.setUV(15, 15);
 
-        CrossBeamRailSupportLeft = new BoxExtruder (.0560f, .0560f);
-        CrossBeamRailSupportRight = new BoxExtruder (.0560f, .0560f);
-        CrossBeamRailSupportLeft.setUV (15, 15);
-        CrossBeamRailSupportRight.setUV (15, 15);
+        CrossBeamRailSupportLeft = new BoxExtruder(.0560f, .0560f);
+        CrossBeamRailSupportRight = new BoxExtruder(.0560f, .0560f);
+        CrossBeamRailSupportLeft.setUV(15, 15);
+        CrossBeamRailSupportRight.setUV(15, 15);
 
-        AngledCrossBeamSupport = new BoxExtruder (.0110f, .06967f);
-        AngledCrossBeamSupport.setUV (15, 15);
+        AngledCrossBeamSupport = new BoxExtruder(.0110f, .06967f);
+        AngledCrossBeamSupport.setUV(15, 15);
 
-        this.collisionMeshExtruder = new BoxExtruder(base.trackWidth, 0.022835f);
-        this.buildVolumeMeshExtruder = new BoxExtruder(base.trackWidth, 0.7f);
-        this.buildVolumeMeshExtruder.closeEnds = true;
+        collisionMeshExtruder = new BoxExtruder(trackWidth, 0.022835f);
+        buildVolumeMeshExtruder = new BoxExtruder(trackWidth, 0.7f);
+        buildVolumeMeshExtruder.closeEnds = true;
     }
 
     public override void sampleAt(TrackSegment4 trackSegment, float t)
     {
         base.sampleAt(trackSegment, t);
-        Vector3 normal = trackSegment.getNormal(t);
-        Vector3 trackPivot = base.getTrackPivot(trackSegment.getPoint(t,0), normal);
-        Vector3 tangentPoint = trackSegment.getTangentPoint(t);
-        Vector3 binormal = Vector3.Cross(normal, tangentPoint).normalized;
+        var normal = trackSegment.getNormal(t);
+        var trackPivot = getTrackPivot(trackSegment.getPoint(t, 0), normal);
+        var tangentPoint = trackSegment.getTangentPoint(t);
+        var binormal = Vector3.Cross(normal, tangentPoint).normalized;
 
-        Vector3 binormalFlat = Vector3.Cross(Vector3.up, tangentPoint).normalized;
-
-
-        Vector3 midPoint = trackPivot + normal * this.getCenterPointOffsetY();
+        var binormalFlat = Vector3.Cross(Vector3.up, tangentPoint).normalized;
 
 
-        this.leftWoodenTrack.extrude(trackPivot + binormal * base.trackWidth / 2f, tangentPoint, normal);
-        this.rightWoodenTrack.extrude(trackPivot - binormal * base.trackWidth / 2f, tangentPoint, normal);
+        var midPoint = trackPivot + normal * getCenterPointOffsetY();
 
 
-        this.leftMinorWoodenTrack.extrude(trackPivot + binormal * .07304f , tangentPoint,normal);
-        this.rightMinorWoodenTrack.extrude(trackPivot - binormal * .07304f, tangentPoint,normal);
+        leftWoodenTrack.extrude(trackPivot + binormal * trackWidth / 2f, tangentPoint, normal);
+        rightWoodenTrack.extrude(trackPivot - binormal * trackWidth / 2f, tangentPoint, normal);
 
-        this.leftSideWoodenTrack.extrude(trackPivot - normal * .1323f  + binormal * (-(leftSideWoodenTrack.width/2.0f) + (base.trackWidth / 2f) + (this.leftWoodenTrack.width /2.0f)),tangentPoint,normal);
-        this.rightSideWoodenTrack.extrude(trackPivot - normal * .1323f - binormal * (-(leftSideWoodenTrack.width/2.0f) + (base.trackWidth / 2f) + (this.rightWoodenTrack.width /2.0f)),tangentPoint,normal);
 
-        CrossBeamRailSupportLeft.extrude (trackPivot + binormalFlat * .5f - Vector3.up * (trackOffsetY()), tangentPoint, binormalFlat);
-        CrossBeamRailSupportRight.extrude (trackPivot - binormalFlat * .5f - Vector3.up * (trackOffsetY()), tangentPoint, binormalFlat);
+        leftMinorWoodenTrack.extrude(trackPivot + binormal * .07304f, tangentPoint, normal);
+        rightMinorWoodenTrack.extrude(trackPivot - binormal * .07304f, tangentPoint, normal);
 
-        this.collisionMeshExtruder.extrude(trackPivot, tangentPoint, normal);
-        if (this.liftExtruder != null)
-        {
-            this.liftExtruder.extrude(midPoint, tangentPoint, normal);
-        }
+        leftSideWoodenTrack.extrude(
+            trackPivot - normal * .1323f + binormal *
+            (-(leftSideWoodenTrack.width / 2.0f) + trackWidth / 2f + leftWoodenTrack.width / 2.0f), tangentPoint,
+            normal);
+        rightSideWoodenTrack.extrude(
+            trackPivot - normal * .1323f - binormal *
+            (-(leftSideWoodenTrack.width / 2.0f) + trackWidth / 2f + rightWoodenTrack.width / 2.0f), tangentPoint,
+            normal);
+
+        CrossBeamRailSupportLeft.extrude(trackPivot + binormalFlat * .5f - Vector3.up * trackOffsetY(), tangentPoint,
+            binormalFlat);
+        CrossBeamRailSupportRight.extrude(trackPivot - binormalFlat * .5f - Vector3.up * trackOffsetY(), tangentPoint,
+            binormalFlat);
+
+        collisionMeshExtruder.extrude(trackPivot, tangentPoint, normal);
+        if (liftExtruder != null) liftExtruder.extrude(midPoint, tangentPoint, normal);
     }
 
     public override void afterExtrusion(TrackSegment4 trackSegment, GameObject putMeshOnGO)
     {
         base.afterExtrusion(trackSegment, putMeshOnGO);
 
-        float sample = trackSegment.getLength(0) / (float)Mathf.RoundToInt(trackSegment.getLength(0)/ this.crossBeamSpacing);
-        float pos = 0.0f;
-        int index = 0;
-        while(pos < trackSegment.getLength(0))
+        var sample = trackSegment.getLength(0) / Mathf.RoundToInt(trackSegment.getLength(0) / crossBeamSpacing);
+        var pos = 0.0f;
+        var index = 0;
+        while (pos < trackSegment.getLength(0))
         {
-         
-
-            float tForDistance = trackSegment.getTForDistance (pos,0);
+            var tForDistance = trackSegment.getTForDistance(pos, 0);
 
             index++;
             pos += sample;
 
-            Vector3 normal = trackSegment.getNormal (tForDistance);
-            Vector3 tangentPoint = trackSegment.getTangentPoint (tForDistance);
-            Vector3 binormal = Vector3.Cross (normal, tangentPoint).normalized;
-            Vector3 trackPivot = base.getTrackPivot (trackSegment.getPoint (tForDistance,0), normal);
-            Vector3 binormalFlat = Vector3.Cross(Vector3.up, tangentPoint).normalized;
+            var normal = trackSegment.getNormal(tForDistance);
+            var tangentPoint = trackSegment.getTangentPoint(tForDistance);
+            var binormal = Vector3.Cross(normal, tangentPoint).normalized;
+            var trackPivot = getTrackPivot(trackSegment.getPoint(tForDistance, 0), normal);
+            var binormalFlat = Vector3.Cross(Vector3.up, tangentPoint).normalized;
 
             //vertical segment
-            crossBeamSupport.extrude (trackPivot + normal * crossBeamSupport.width + (binormal * (base.trackWidth / 2f + leftWoodenTrack.width/2.0f  + crossBeamSupport.width/2.0f)), normal* -1f, binormal);
-            crossBeamSupport.extrude (trackPivot - normal * .2841f + normal * crossBeamSupport.width + (binormal * (base.trackWidth / 2f + rightWoodenTrack.width/2.0f + crossBeamSupport.width/2.0f)), normal* -1f, binormal);
-            crossBeamSupport.end ();
+            crossBeamSupport.extrude(
+                trackPivot + normal * crossBeamSupport.width + binormal *
+                (trackWidth / 2f + leftWoodenTrack.width / 2.0f + crossBeamSupport.width / 2.0f), normal * -1f,
+                binormal);
+            crossBeamSupport.extrude(
+                trackPivot - normal * .2841f + normal * crossBeamSupport.width + binormal *
+                (trackWidth / 2f + rightWoodenTrack.width / 2.0f + crossBeamSupport.width / 2.0f), normal * -1f,
+                binormal);
+            crossBeamSupport.end();
 
-            crossBeamSupport.extrude (trackPivot + normal * crossBeamSupport.width - (binormal * (base.trackWidth / 2f + leftWoodenTrack.width/2.0f  + crossBeamSupport.width/2.0f)), normal * -1f, binormal);
-            crossBeamSupport.extrude (trackPivot - normal * .2841f + normal * crossBeamSupport.width - (binormal * (base.trackWidth / 2f + rightWoodenTrack.width/2.0f + crossBeamSupport.width/2.0f)),normal* -1f, binormal);
-            crossBeamSupport.end ();
+            crossBeamSupport.extrude(
+                trackPivot + normal * crossBeamSupport.width - binormal *
+                (trackWidth / 2f + leftWoodenTrack.width / 2.0f + crossBeamSupport.width / 2.0f), normal * -1f,
+                binormal);
+            crossBeamSupport.extrude(
+                trackPivot - normal * .2841f + normal * crossBeamSupport.width - binormal *
+                (trackWidth / 2f + rightWoodenTrack.width / 2.0f + crossBeamSupport.width / 2.0f), normal * -1f,
+                binormal);
+            crossBeamSupport.end();
 
             //cross beams
-            crossBeamSupport.extrude (trackPivot + normal * crossBeamSupport.width + binormal * .5f, -1f * binormal, normal);
-            crossBeamSupport.extrude (trackPivot + normal * crossBeamSupport.width - binormal * .5f, -1f * binormal, normal);
-            crossBeamSupport.end ();
+            crossBeamSupport.extrude(trackPivot + normal * crossBeamSupport.width + binormal * .5f, -1f * binormal,
+                normal);
+            crossBeamSupport.extrude(trackPivot + normal * crossBeamSupport.width - binormal * .5f, -1f * binormal,
+                normal);
+            crossBeamSupport.end();
 
-            if (!(trackSegment is Station)) {
-                
+            if (!(trackSegment is Station))
+            {
                 //angled segments
-                AngledCrossBeamSupport.extrude (trackPivot - normal * (.2841f - AngledCrossBeamSupport.height / 2.0f) + normal * (crossBeamSupport.width) + (tangentPoint * (crossBeamSupport.width / 2.0f + AngledCrossBeamSupport.width / 2.0f)) - (binormal * (base.trackWidth / 2f + leftWoodenTrack.width / 2.0f + AngledCrossBeamSupport.width / 2.0f)), binormal * -1f, normal);
-                Vector3 tangentAngleVectorLeft = rotateNormalAxis (tangentPoint, binormal, -Mathf.Deg2Rad * 25f);
-                AngledCrossBeamSupport.extrude (trackPivot + normal * (crossBeamSupport.width + .1f) + (tangentPoint * (crossBeamSupport.width / 2.0f + AngledCrossBeamSupport.width / 2.0f)) - (binormal * (.5f + .05f)), tangentAngleVectorLeft.normalized * -1f, Vector3.Cross (tangentAngleVectorLeft, tangentPoint).normalized * -1f);
-                AngledCrossBeamSupport.end ();
+                AngledCrossBeamSupport.extrude(
+                    trackPivot - normal * (.2841f - AngledCrossBeamSupport.height / 2.0f) +
+                    normal * crossBeamSupport.width +
+                    tangentPoint * (crossBeamSupport.width / 2.0f + AngledCrossBeamSupport.width / 2.0f) - binormal *
+                    (trackWidth / 2f + leftWoodenTrack.width / 2.0f + AngledCrossBeamSupport.width / 2.0f),
+                    binormal * -1f, normal);
+                var tangentAngleVectorLeft = rotateNormalAxis(tangentPoint, binormal, -Mathf.Deg2Rad * 25f);
+                AngledCrossBeamSupport.extrude(
+                    trackPivot + normal * (crossBeamSupport.width + .1f) +
+                    tangentPoint * (crossBeamSupport.width / 2.0f + AngledCrossBeamSupport.width / 2.0f) -
+                    binormal * (.5f + .05f), tangentAngleVectorLeft.normalized * -1f,
+                    Vector3.Cross(tangentAngleVectorLeft, tangentPoint).normalized * -1f);
+                AngledCrossBeamSupport.end();
 
-                AngledCrossBeamSupport.extrude (trackPivot - normal * (.2841f - AngledCrossBeamSupport.height / 2.0f) + normal * (crossBeamSupport.width) - (tangentPoint * (crossBeamSupport.width / 2.0f + AngledCrossBeamSupport.width / 2.0f)) - (binormal * (base.trackWidth / 2f + leftWoodenTrack.width / 2.0f + AngledCrossBeamSupport.width / 2.0f)), binormal * -1f, normal);
-                AngledCrossBeamSupport.extrude (trackPivot + normal * (crossBeamSupport.width + .1f) - (tangentPoint * (crossBeamSupport.width / 2.0f + AngledCrossBeamSupport.width / 2.0f)) - (binormal * (.5f + .05f)), tangentAngleVectorLeft.normalized * -1f, Vector3.Cross (tangentAngleVectorLeft, tangentPoint).normalized * -1f);
-                AngledCrossBeamSupport.end ();
+                AngledCrossBeamSupport.extrude(
+                    trackPivot - normal * (.2841f - AngledCrossBeamSupport.height / 2.0f) +
+                    normal * crossBeamSupport.width -
+                    tangentPoint * (crossBeamSupport.width / 2.0f + AngledCrossBeamSupport.width / 2.0f) - binormal *
+                    (trackWidth / 2f + leftWoodenTrack.width / 2.0f + AngledCrossBeamSupport.width / 2.0f),
+                    binormal * -1f, normal);
+                AngledCrossBeamSupport.extrude(
+                    trackPivot + normal * (crossBeamSupport.width + .1f) -
+                    tangentPoint * (crossBeamSupport.width / 2.0f + AngledCrossBeamSupport.width / 2.0f) -
+                    binormal * (.5f + .05f), tangentAngleVectorLeft.normalized * -1f,
+                    Vector3.Cross(tangentAngleVectorLeft, tangentPoint).normalized * -1f);
+                AngledCrossBeamSupport.end();
 
-                AngledCrossBeamSupport.extrude (trackPivot - normal * (.2841f - AngledCrossBeamSupport.height / 2.0f) + normal * (crossBeamSupport.width) + (tangentPoint * (crossBeamSupport.width / 2.0f + AngledCrossBeamSupport.width / 2.0f)) + (binormal * (base.trackWidth / 2f + leftWoodenTrack.width / 2.0f + AngledCrossBeamSupport.width / 2.0f)), binormal, normal);
-                Vector3 tangentAngleVectorright = rotateNormalAxis (tangentPoint, binormal, Mathf.Deg2Rad * 25f);
-                AngledCrossBeamSupport.extrude (trackPivot + normal * (crossBeamSupport.width + .1f) + (tangentPoint * (crossBeamSupport.width / 2.0f + AngledCrossBeamSupport.width / 2.0f)) + (binormal * (.5f + .05f)), tangentAngleVectorright.normalized, Vector3.Cross (tangentAngleVectorright, tangentPoint).normalized * -1f);
-                AngledCrossBeamSupport.end ();
+                AngledCrossBeamSupport.extrude(
+                    trackPivot - normal * (.2841f - AngledCrossBeamSupport.height / 2.0f) +
+                    normal * crossBeamSupport.width +
+                    tangentPoint * (crossBeamSupport.width / 2.0f + AngledCrossBeamSupport.width / 2.0f) + binormal *
+                    (trackWidth / 2f + leftWoodenTrack.width / 2.0f + AngledCrossBeamSupport.width / 2.0f), binormal,
+                    normal);
+                var tangentAngleVectorright = rotateNormalAxis(tangentPoint, binormal, Mathf.Deg2Rad * 25f);
+                AngledCrossBeamSupport.extrude(
+                    trackPivot + normal * (crossBeamSupport.width + .1f) +
+                    tangentPoint * (crossBeamSupport.width / 2.0f + AngledCrossBeamSupport.width / 2.0f) +
+                    binormal * (.5f + .05f), tangentAngleVectorright.normalized,
+                    Vector3.Cross(tangentAngleVectorright, tangentPoint).normalized * -1f);
+                AngledCrossBeamSupport.end();
 
-                AngledCrossBeamSupport.extrude (trackPivot - normal * (.2841f - AngledCrossBeamSupport.height / 2.0f) + normal * (crossBeamSupport.width) - (tangentPoint * (crossBeamSupport.width / 2.0f + AngledCrossBeamSupport.width / 2.0f)) + (binormal * (base.trackWidth / 2f + leftWoodenTrack.width / 2.0f + AngledCrossBeamSupport.width / 2.0f)), binormal, normal);
-                AngledCrossBeamSupport.extrude (trackPivot + normal * (crossBeamSupport.width + .1f) - (tangentPoint * (crossBeamSupport.width / 2.0f + AngledCrossBeamSupport.width / 2.0f)) + (binormal * (.5f + .05f)), tangentAngleVectorright.normalized, Vector3.Cross (tangentAngleVectorright, tangentPoint).normalized * -1f);
-                AngledCrossBeamSupport.end ();
-        
-                if (index % 2 == 0) {
+                AngledCrossBeamSupport.extrude(
+                    trackPivot - normal * (.2841f - AngledCrossBeamSupport.height / 2.0f) +
+                    normal * crossBeamSupport.width -
+                    tangentPoint * (crossBeamSupport.width / 2.0f + AngledCrossBeamSupport.width / 2.0f) + binormal *
+                    (trackWidth / 2f + leftWoodenTrack.width / 2.0f + AngledCrossBeamSupport.width / 2.0f), binormal,
+                    normal);
+                AngledCrossBeamSupport.extrude(
+                    trackPivot + normal * (crossBeamSupport.width + .1f) -
+                    tangentPoint * (crossBeamSupport.width / 2.0f + AngledCrossBeamSupport.width / 2.0f) +
+                    binormal * (.5f + .05f), tangentAngleVectorright.normalized,
+                    Vector3.Cross(tangentAngleVectorright, tangentPoint).normalized * -1f);
+                AngledCrossBeamSupport.end();
+
+                if (index % 2 == 0)
+                {
                     //secondary vertical
 
-                    float angle = Mathf.Deg2Rad * AngleSigned (normal, Vector3.down, tangentPoint);
+                    var angle = Mathf.Deg2Rad * AngleSigned(normal, Vector3.down, tangentPoint);
 
-                    crossBeamSupport.extrude (trackPivot + binormalFlat * .5f + rotateNormalAxis (tangentPoint, normal, angle) * trackOffsetY () - (tangentPoint * (crossBeamSupport.width / 2.0f + crossBeamSupport.width / 2.0f + AngledCrossBeamSupport.width / 2.0f)), normal * -1f, binormalFlat);
-                    crossBeamSupport.extrude (trackPivot + binormalFlat * .5f + normal * (-.4015f + trackOffsetY ()) - (tangentPoint * (crossBeamSupport.width / 2.0f + crossBeamSupport.width / 2.0f + AngledCrossBeamSupport.width / 2.0f)), normal * -1f, binormalFlat);
-                    crossBeamSupport.end ();
+                    crossBeamSupport.extrude(
+                        trackPivot + binormalFlat * .5f +
+                        rotateNormalAxis(tangentPoint, normal, angle) * trackOffsetY() - tangentPoint *
+                        (crossBeamSupport.width / 2.0f + crossBeamSupport.width / 2.0f +
+                         AngledCrossBeamSupport.width / 2.0f), normal * -1f, binormalFlat);
+                    crossBeamSupport.extrude(
+                        trackPivot + binormalFlat * .5f + normal * (-.4015f + trackOffsetY()) - tangentPoint *
+                        (crossBeamSupport.width / 2.0f + crossBeamSupport.width / 2.0f +
+                         AngledCrossBeamSupport.width / 2.0f), normal * -1f, binormalFlat);
+                    crossBeamSupport.end();
 
-                    crossBeamSupport.extrude (trackPivot + binormalFlat * .5f + rotateNormalAxis (tangentPoint, normal, angle) * trackOffsetY () + (tangentPoint * (crossBeamSupport.width / 2.0f + crossBeamSupport.width / 2.0f + AngledCrossBeamSupport.width / 2.0f)), normal * -1f, binormalFlat);
-                    crossBeamSupport.extrude (trackPivot + binormalFlat * .5f + normal * (-.4015f + trackOffsetY ()) + (tangentPoint * (crossBeamSupport.width / 2.0f + crossBeamSupport.width / 2.0f + AngledCrossBeamSupport.width / 2.0f)), normal * -1f, binormalFlat);
-                    crossBeamSupport.end ();
+                    crossBeamSupport.extrude(
+                        trackPivot + binormalFlat * .5f +
+                        rotateNormalAxis(tangentPoint, normal, angle) * trackOffsetY() + tangentPoint *
+                        (crossBeamSupport.width / 2.0f + crossBeamSupport.width / 2.0f +
+                         AngledCrossBeamSupport.width / 2.0f), normal * -1f, binormalFlat);
+                    crossBeamSupport.extrude(
+                        trackPivot + binormalFlat * .5f + normal * (-.4015f + trackOffsetY()) + tangentPoint *
+                        (crossBeamSupport.width / 2.0f + crossBeamSupport.width / 2.0f +
+                         AngledCrossBeamSupport.width / 2.0f), normal * -1f, binormalFlat);
+                    crossBeamSupport.end();
 
 
-                    crossBeamSupport.extrude (trackPivot - binormalFlat * .5f + rotateNormalAxis (tangentPoint, normal, angle) * trackOffsetY () - (tangentPoint * (crossBeamSupport.width / 2.0f + crossBeamSupport.width / 2.0f + AngledCrossBeamSupport.width / 2.0f)), normal * -1f, binormalFlat);
-                    crossBeamSupport.extrude (trackPivot - binormalFlat * .5f + normal * (-.4015f + trackOffsetY ()) - (tangentPoint * (crossBeamSupport.width / 2.0f + crossBeamSupport.width / 2.0f + AngledCrossBeamSupport.width / 2.0f)), normal * -1f, binormalFlat);
-                    crossBeamSupport.end ();
+                    crossBeamSupport.extrude(
+                        trackPivot - binormalFlat * .5f +
+                        rotateNormalAxis(tangentPoint, normal, angle) * trackOffsetY() - tangentPoint *
+                        (crossBeamSupport.width / 2.0f + crossBeamSupport.width / 2.0f +
+                         AngledCrossBeamSupport.width / 2.0f), normal * -1f, binormalFlat);
+                    crossBeamSupport.extrude(
+                        trackPivot - binormalFlat * .5f + normal * (-.4015f + trackOffsetY()) - tangentPoint *
+                        (crossBeamSupport.width / 2.0f + crossBeamSupport.width / 2.0f +
+                         AngledCrossBeamSupport.width / 2.0f), normal * -1f, binormalFlat);
+                    crossBeamSupport.end();
 
-                    crossBeamSupport.extrude (trackPivot - binormalFlat * .5f + rotateNormalAxis (tangentPoint, normal, angle) * trackOffsetY () + (tangentPoint * (crossBeamSupport.width / 2.0f + crossBeamSupport.width / 2.0f + AngledCrossBeamSupport.width / 2.0f)), normal * -1f, binormalFlat);
-                    crossBeamSupport.extrude (trackPivot - binormalFlat * .5f + normal * (-.4015f + trackOffsetY ()) + (tangentPoint * (crossBeamSupport.width / 2.0f + crossBeamSupport.width / 2.0f + AngledCrossBeamSupport.width / 2.0f)), normal * -1f, binormalFlat);
-                    crossBeamSupport.end ();
-
+                    crossBeamSupport.extrude(
+                        trackPivot - binormalFlat * .5f +
+                        rotateNormalAxis(tangentPoint, normal, angle) * trackOffsetY() + tangentPoint *
+                        (crossBeamSupport.width / 2.0f + crossBeamSupport.width / 2.0f +
+                         AngledCrossBeamSupport.width / 2.0f), normal * -1f, binormalFlat);
+                    crossBeamSupport.extrude(
+                        trackPivot - binormalFlat * .5f + normal * (-.4015f + trackOffsetY()) + tangentPoint *
+                        (crossBeamSupport.width / 2.0f + crossBeamSupport.width / 2.0f +
+                         AngledCrossBeamSupport.width / 2.0f), normal * -1f, binormalFlat);
+                    crossBeamSupport.end();
                 }
             }
-
         }
-
     }
+
     private float AngleSigned(Vector3 v1, Vector3 v2, Vector3 n)
     {
         return Mathf.Atan2(
-            Vector3.Dot(n, Vector3.Cross(v1, v2)),
-            Vector3.Dot(v1, v2)) * Mathf.Rad2Deg;
+                   Vector3.Dot(n, Vector3.Cross(v1, v2)),
+                   Vector3.Dot(v1, v2)) * Mathf.Rad2Deg;
     }
 
-    private Vector3 rotateNormalAxis(Vector3 n, Vector3 dir,float axis)
+    private Vector3 rotateNormalAxis(Vector3 n, Vector3 dir, float axis)
     {
-        return dir * Mathf.Cos(axis) + (Vector3.Cross(n,dir))* Mathf.Sin(axis) + n*(Vector3.Dot(n,dir)*(1-Mathf.Cos(axis)));
+        return dir * Mathf.Cos(axis) + Vector3.Cross(n, dir) * Mathf.Sin(axis) +
+               n * (Vector3.Dot(n, dir) * (1 - Mathf.Cos(axis)));
     }
 
     public override Mesh getMesh(GameObject putMeshOnGO)
     {
-        
-
-
-        return MeshCombiner.start().add(new Extruder[]
-            {
-                leftWoodenTrack,
-                rightWoodenTrack,
-                leftMinorWoodenTrack,
-                rightMinorWoodenTrack,
-                leftSideWoodenTrack,
-                rightSideWoodenTrack,
-                crossBeamSupport,
-                AngledCrossBeamSupport,
-                CrossBeamRailSupportLeft,
-                CrossBeamRailSupportRight
-               
-            }).end(putMeshOnGO.transform.worldToLocalMatrix);
+        return MeshCombiner.start().add(leftWoodenTrack, rightWoodenTrack, leftMinorWoodenTrack, rightMinorWoodenTrack,
+            leftSideWoodenTrack, rightSideWoodenTrack, crossBeamSupport, AngledCrossBeamSupport,
+            CrossBeamRailSupportLeft, CrossBeamRailSupportRight).end(putMeshOnGO.transform.worldToLocalMatrix);
     }
 
     public override Mesh getCollisionMesh(GameObject putMeshOnGO)
     {
-        return this.collisionMeshExtruder.getMesh(putMeshOnGO.transform.worldToLocalMatrix);
+        return collisionMeshExtruder.getMesh(putMeshOnGO.transform.worldToLocalMatrix);
     }
 
     public override Extruder getBuildVolumeMeshExtruder()
     {
-        return this.buildVolumeMeshExtruder;
+        return buildVolumeMeshExtruder;
     }
 
     public override float trackOffsetY()
@@ -261,4 +327,3 @@ public class SideFrictionTrackGenerator : MeshGenerator
         return 0.022835f;
     }
 }
-

@@ -1,5 +1,6 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <Project ToolsVersion="12.0" DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <Import Project="$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props" Condition="Exists('$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props')" />
   <PropertyGroup>
     <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
     <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
@@ -36,9 +37,6 @@
     <Reference Include="Parkitect, Version=0.0.0.0, Culture=neutral, PublicKeyToken=null">
       <HintPath>../../Parkitect_Data/Managed/Parkitect.dll</HintPath>
       <Private>False</Private>
-    </Reference>
-    <Reference Include="Parkitect, Version=0.0.0.0, Culture=neutral, PublicKeyToken=null">
-      <HintPath>..\..\Parkitect_Data\Managed\Parkitect.dll</HintPath>
     </Reference>
     <Reference Include="System" />
     <Reference Include="System.Core" />
@@ -81,20 +79,13 @@
     <Content Include="assetbundle\assetpack.manifest">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
+    <Content Include="LICENSE" />
     <Content Include="preview.png">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
     <Content Include="steam_workshop-id">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
-    <Content Include="TrackRiderUtil\.directory" />
-    <Content Include="TrackRiderUtil\.git" />
-    <Content Include="TrackRiderUtil\.gitignore" />
-    <Content Include="TrackRiderUtil\LICENSE" />
-    <Content Include="TrackRiderUtil\mod.json" />
-    <Content Include="TrackRiderUtil\README.md" />
-    <Content Include="TrackRiderUtil\TrackedRiderUtility.csproj" />
-    <Content Include="TrackRiderUtil\TrackedRiderUtility.sln" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>
