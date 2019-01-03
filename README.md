@@ -3,6 +3,7 @@
 ## Introduction
 
 [![License](https://img.shields.io/badge/License-Apache%202.0-blue.svg)](https://opensource.org/licenses/Apache-2.0)
+[![](https://img.shields.io/steam/subscriptions/1322946590.svg)](https://steamcommunity.com/sharedfiles/filedetails/?id=1322946590)
 
 This mod introduces An early wooden coaster design that used a trough/side rail design that isn't use anymore in most modern day coaster.
 
