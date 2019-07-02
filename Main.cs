@@ -21,7 +21,15 @@ using UnityEngine;
 public class Main : IMod
 {
     private TrackRiderBinder binder;
-
+    private GameObject hider;
+    
+    private GameObject ProxyObject(GameObject gameObject)
+    {
+        gameObject.transform.SetParent(hider.transform);
+        return gameObject;
+    }
+    
+    
     public string Path
     {
         get { return ModManager.Instance.getModEntries().First(x => x.mod == this).path; }
@@ -29,6 +37,9 @@ public class Main : IMod
 
     public void onEnabled()
     {
+        hider = new GameObject();
+        hider.SetActive(false);
+        
        AssetBundleManager assetBundleManager = new AssetBundleManager(this);
 
         binder = new TrackRiderBinder("750af72f6eff659e238b2a5c8826e3c8");
@@ -58,7 +69,7 @@ public class Main : IMod
             binder.RegisterCoasterCarInstaniator<CoasterCarInstantiator>(trackedRide, "SideFrictionInstantiator",
                 "Side Friction Car", 5, 7, 2);
 
-        var car = binder.RegisterCar<BaseCar>(assetBundleManager.Car, "SideFrictionCar", .25f, .02f, true,
+        var car = binder.RegisterCar<BaseCar>(ProxyObject(Object.Instantiate(assetBundleManager.Car)), "SideFrictionCar", .25f, .02f, true,
             new[]
             {
                 new Color(0f / 255, 4f / 255, 190f / 255),
