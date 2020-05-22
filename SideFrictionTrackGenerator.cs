@@ -85,7 +85,6 @@ public class SideFrictionTrackGenerator : MeshGenerator
         leftWoodenTrack.extrude(trackPivot + binormal * trackWidth / 2f, tangentPoint, normal);
         rightWoodenTrack.extrude(trackPivot - binormal * trackWidth / 2f, tangentPoint, normal);
 
-
         leftMinorWoodenTrack.extrude(trackPivot + binormal * .07304f, tangentPoint, normal);
         rightMinorWoodenTrack.extrude(trackPivot - binormal * .07304f, tangentPoint, normal);
 
@@ -104,7 +103,8 @@ public class SideFrictionTrackGenerator : MeshGenerator
             binormalFlat);
 
         collisionMeshExtruder.extrude(trackPivot, tangentPoint, normal);
-        if (liftExtruder != null) liftExtruder.extrude(midPoint, tangentPoint, normal);
+        foreach (Extruder extruder in this.liftExtruders)
+            extruder.extrude(midPoint, tangentPoint, normal);
     }
 
     public override void afterExtrusion(TrackSegment4 trackSegment, GameObject putMeshOnGO)
@@ -311,7 +311,7 @@ public class SideFrictionTrackGenerator : MeshGenerator
     {
         return 0.15f;
     }
-    
+
     public override float getTunnelWidth(TrackSegment4 trackSegment, float t)
     {
         return 0.6f;
