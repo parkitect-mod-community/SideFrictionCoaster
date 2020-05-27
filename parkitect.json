@@ -1,0 +1,23 @@
+{
+    "name": "SideFrictionCoaster",
+    "folder": "pollend@SideFrictionCoaster",
+    "version": "v1.0.0",
+    "workshop": "1322946590",
+    "author": "Michael Pollind",
+    "description": null,
+    "preview": "./preview.png",
+    "assemblies": [
+      "System",
+      "System.Core",
+      "System.Data",
+      "UnityEngine",
+      "UnityEngine.AssetBundleModule",
+      "UnityEngine.CoreModule",
+      "Parkitect",
+      "UnityEngine.PhysicsModule"
+    ],
+    "assets": [
+      "assetbundle/**"
+    ]
+  }
+  
